@@ -1,8 +1,9 @@
 package ir.maktabsharif127.jdbc.domains;
 
-public class User {
+import ir.maktabsharif127.jdbc.domains.base.BaseEntity;
 
-    private Integer id;
+public class User extends BaseEntity<Integer> {
+
 
     private String firstName;
 
@@ -13,14 +14,6 @@ public class User {
     private String username;
 
     public User() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -58,7 +51,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-               "id=" + id +
+               "id=" + getId() +
                ", firstName='" + firstName + '\'' +
                ", lastName='" + lastName + '\'' +
                ", age=" + age +
