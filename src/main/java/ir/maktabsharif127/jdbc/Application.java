@@ -1,9 +1,9 @@
 package ir.maktabsharif127.jdbc;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import ir.maktabsharif127.jdbc.domains.User;
+
+import java.sql.*;
+import java.util.Optional;
 import java.util.Properties;
 
 public class Application {
@@ -21,22 +21,30 @@ public class Application {
                 )
         ) {
 
-            connection.setAutoCommit(false);
-
             System.out.println("connection is open");
 
-            try (Statement statement = connection.createStatement()) {
-                System.out.println("line 27) " + statement.executeUpdate("update users set username = 'mat10' where id = 1001"));
-                implLoginWithException();
-                System.out.println("line 29) " + statement.executeUpdate("update users set username = 'mat15' where id = 1001"));
-                connection.commit();
-            }
+
+            findUserById(connection, 1001).ifPresent(user -> System.out.println(user.getUsername()));
+            findUserById(connection, 100144).ifPresent(user -> System.out.println(user.getUsername()));
 
         }
     }
 
-    private static void implLoginWithException() {
-        throw new RuntimeException();
+    private static Optional<User> findUserById(Connection connection, Integer id) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement("select * from users where id = ?")) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            User user = null;
+            if (resultSet.next()) {
+                user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setLastName(resultSet.getString("last_name"));
+                user.setAge(resultSet.getInt("age"));
+                user.setUsername(resultSet.getString("username"));
+            }
+            return Optional.ofNullable(user);
+        }
     }
 
 }
