@@ -17,9 +17,12 @@ public class Application {
             System.out.println("connection is open");
 
             try (Statement statement = connection.createStatement()) {
-                try (ResultSet resultSet = statement.executeQuery("select id as my_id, first_name, last_name, age from users limit 10")) {
+                try (ResultSet resultSet = statement.executeQuery(
+                        "select id, first_name, last_name, age from users where first_name like '%m%' order by id limit 10"
+                )
+                ) {
                     while (resultSet.next()) {
-                        int id = resultSet.getInt("my_id");
+                        int id = resultSet.getInt("id");
                         String firstName = resultSet.getString("first_name");
                         String lastName = resultSet.getString("last_name");
                         int age = resultSet.getInt("Age");
