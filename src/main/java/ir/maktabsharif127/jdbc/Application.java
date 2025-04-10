@@ -18,7 +18,7 @@ public class Application {
 
             try (Statement statement = connection.createStatement()) {
                 try (ResultSet resultSet = statement.executeQuery(
-                        "select id, first_name, last_name, age from users where first_name like '%m%' order by id limit 10"
+                        "select * from users where id = 1001"
                 )
                 ) {
                     while (resultSet.next()) {
@@ -26,11 +26,33 @@ public class Application {
                         String firstName = resultSet.getString("first_name");
                         String lastName = resultSet.getString("last_name");
                         int age = resultSet.getInt("Age");
+                        String username = resultSet.getString("username");
 
-                        System.out.println(id + " " + firstName + " " + lastName + " " + age);
+                        System.out.println(id + " " + firstName + " " + lastName + " " + age + " " + username);
 
                     }
                 }
+
+                System.out.println(
+                        "result of executeUpdate is " + statement.executeUpdate("update users set username = 'mat' where id in (1001, 1003)")
+                );
+
+                try (ResultSet resultSet = statement.executeQuery(
+                        "select * from users where id = 1001"
+                )
+                ) {
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("id");
+                        String firstName = resultSet.getString("first_name");
+                        String lastName = resultSet.getString("last_name");
+                        int age = resultSet.getInt("Age");
+                        String username = resultSet.getString("username");
+
+                        System.out.println(id + " " + firstName + " " + lastName + " " + age + " " + username);
+
+                    }
+                }
+
             }
         }
 
