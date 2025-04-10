@@ -17,16 +17,14 @@ public class Application {
             System.out.println("connection is open");
 
             try (Statement statement = connection.createStatement()) {
-                try (ResultSet resultSet = statement.executeQuery("select id, first_name, last_name, age from users limit 10")) {
-                    int row = 1;
+                try (ResultSet resultSet = statement.executeQuery("select id as my_id, first_name, last_name, age from users limit 10")) {
                     while (resultSet.next()) {
-                        int id = resultSet.getInt(1);
-//                        int id = resultSet.getInt("id");
-                        String firstName = resultSet.getString(2);
-                        String lastName = resultSet.getString(3);
-                        int age = resultSet.getInt(4);
+                        int id = resultSet.getInt("my_id");
+                        String firstName = resultSet.getString("first_name");
+                        String lastName = resultSet.getString("last_name");
+                        int age = resultSet.getInt("Age");
 
-                        System.out.println(row++ + ")" + id + " " + firstName + " " + lastName + " " + age);
+                        System.out.println(id + " " + firstName + " " + lastName + " " + age);
 
                     }
                 }
