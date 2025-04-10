@@ -1,6 +1,9 @@
 package ir.maktabsharif127.jdbc;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 public class Application {
@@ -18,30 +21,22 @@ public class Application {
                 )
         ) {
 
+            connection.setAutoCommit(false);
+
             System.out.println("connection is open");
 
-            String findByIdQuery = "select * from users where last_name = ? or first_name = ?";
-//            String findByIdQuery = "select * from users where id = 188888 or 1 = 1";
-
-            try (PreparedStatement statement = connection.prepareStatement(findByIdQuery)) {
-                statement.setString(1, "asgari");
-                statement.setString(2, "ali");
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    while (resultSet.next()) {
-                        int id = resultSet.getInt("id");
-                        String firstName = resultSet.getString("first_name");
-                        String lastName = resultSet.getString("last_name");
-                        int age = resultSet.getInt("Age");
-                        String username = resultSet.getString("username");
-
-                        System.out.println(id + " " + firstName + " " + lastName + " " + age + " " + username);
-
-                    }
-                }
-
+            try (Statement statement = connection.createStatement()) {
+                System.out.println("line 27) " + statement.executeUpdate("update users set username = 'mat10' where id = 1001"));
+                implLoginWithException();
+                System.out.println("line 29) " + statement.executeUpdate("update users set username = 'mat15' where id = 1001"));
+                connection.commit();
             }
-        }
 
+        }
+    }
+
+    private static void implLoginWithException() {
+        throw new RuntimeException();
     }
 
 }
