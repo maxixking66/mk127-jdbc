@@ -1,5 +1,8 @@
 package ir.maktabsharif127.jdbc.config;
 
+import ir.maktabsharif127.jdbc.repository.UserRepository;
+import ir.maktabsharif127.jdbc.repository.UserRepositoryImpl;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -33,5 +36,14 @@ public class ApplicationContext {
             }
         }
         return connection;
+    }
+
+    private UserRepository userRepository;
+
+    public UserRepository getUserRepository() {
+        if (userRepository == null) {
+            userRepository = new UserRepositoryImpl(getConnection());
+        }
+        return userRepository;
     }
 }

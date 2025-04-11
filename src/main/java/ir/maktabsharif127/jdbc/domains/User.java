@@ -4,6 +4,12 @@ import ir.maktabsharif127.jdbc.domains.base.BaseEntity;
 
 public class User extends BaseEntity<Integer> {
 
+    public static final String TABLE_NAME = "users";
+
+    public static final String FIRST_NAME_COLUMN = "first_name";
+    public static final String LAST_NAME_COLUMN = "last_name";
+    public static final String AGE_COLUMN = "age";
+    public static final String USERNAME_COLUMN = "username";
 
     private String firstName;
 

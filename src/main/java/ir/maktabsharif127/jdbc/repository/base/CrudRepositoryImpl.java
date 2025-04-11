@@ -3,6 +3,9 @@ package ir.maktabsharif127.jdbc.repository.base;
 import ir.maktabsharif127.jdbc.domains.base.BaseEntity;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +34,27 @@ public abstract class CrudRepositoryImpl<T extends BaseEntity<ID>, ID> implement
 
     @Override
     public Optional<T> findById(ID id) {
+
+        String findByIdQuery = "select * from " + getTableName() + " where id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(findByIdQuery)) {
+            statement.setObject(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return Optional.of(
+                        mapResultSetToEntity(resultSet)
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         return Optional.empty();
     }
+
+    protected abstract String getTableName();
+
+    protected abstract T mapResultSetToEntity(ResultSet resultSet);
 
     @Override
     public int deleteById(ID id) {
