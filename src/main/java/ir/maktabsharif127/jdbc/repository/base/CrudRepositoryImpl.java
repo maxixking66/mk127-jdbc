@@ -2,10 +2,8 @@ package ir.maktabsharif127.jdbc.repository.base;
 
 import ir.maktabsharif127.jdbc.domains.base.BaseEntity;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +17,51 @@ public abstract class CrudRepositoryImpl<T extends BaseEntity<ID>, ID> implement
 
     @Override
     public T create(T t) {
-        return null;
+        String insertQuery = prepareInsertQuery();
+        try (PreparedStatement statement = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
+            fillInsertValues(statement, t);
+            statement.executeUpdate();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                setIdInNewEntity(resultSet, t);
+            }
+            return t;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+    protected abstract void setIdInNewEntity(ResultSet resultSet, T entity);
+
+    protected abstract void fillInsertValues(PreparedStatement statement, T t);
+
+    protected String prepareInsertQuery() {
+        String insertQueryTemplate = "INSERT INTO %S (%S) VALUES (%S)";
+        String[] insertColumns = getInsertColumns();
+        return String.format(
+                insertQueryTemplate,
+                getTableName(),
+                String.join(
+                        ", ",
+                        insertColumns
+                ),
+                getQuestionMarksForInsert()
+        );
+    }
+
+    private String getQuestionMarksForInsert() {
+        String[] insertColumns = getInsertColumns();
+        if (insertColumns == null || insertColumns.length == 0) {
+            throw new RuntimeException("wrong implementation");
+        }
+        Arrays.fill(insertColumns, "?");
+        return String.join(
+                ",",
+                insertColumns
+        );
+    }
+
+    protected abstract String[] getInsertColumns();
 
     @Override
     public T update(T t) {

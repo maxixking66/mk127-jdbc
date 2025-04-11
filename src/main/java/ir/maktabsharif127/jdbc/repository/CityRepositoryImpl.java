@@ -5,6 +5,7 @@ import ir.maktabsharif127.jdbc.domains.Province;
 import ir.maktabsharif127.jdbc.repository.base.CrudRepositoryImpl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -13,6 +14,35 @@ public class CityRepositoryImpl extends CrudRepositoryImpl<City, Integer>
 
     public CityRepositoryImpl(Connection connection) {
         super(connection);
+    }
+
+    @Override
+    protected void setIdInNewEntity(ResultSet resultSet, City entity) {
+        try {
+            entity.setId(
+                    resultSet.getInt(1)
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    protected void fillInsertValues(PreparedStatement statement, City city) {
+        try {
+            statement.setString(1, city.getName());
+            statement.setInt(2, city.getProvinceId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    protected String[] getInsertColumns() {
+        return new String[]{
+                City.NAME_COLUMN,
+                City.PROVINCE_ID_COLUMN
+        };
     }
 
     @Override

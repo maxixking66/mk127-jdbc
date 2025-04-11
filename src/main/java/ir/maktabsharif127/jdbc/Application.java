@@ -1,14 +1,10 @@
 package ir.maktabsharif127.jdbc;
 
 import ir.maktabsharif127.jdbc.config.ApplicationContext;
-import ir.maktabsharif127.jdbc.domains.Province;
 import ir.maktabsharif127.jdbc.domains.User;
-import ir.maktabsharif127.jdbc.repository.CityRepository;
-import ir.maktabsharif127.jdbc.repository.ProvinceRepository;
 import ir.maktabsharif127.jdbc.repository.UserRepository;
 
 import java.sql.SQLException;
-import java.util.Optional;
 
 public class Application {
 
@@ -16,18 +12,16 @@ public class Application {
         ApplicationContext applicationContext = ApplicationContext.getInstance();
 
         UserRepository userRepository = applicationContext.getUserRepository();
-        Optional<User> optionalUser = userRepository.findById(1001);
-        optionalUser.ifPresent(System.out::println);
 
-        ProvinceRepository provinceRepository = applicationContext.getProvinceRepository();
-        Optional<Province> provinceOptional = provinceRepository.findById(3);
-        provinceOptional.ifPresent(System.out::println);
+        User user = new User();
+        user.setUsername("tom");
+        user.setFirstName("tommi");
+        user.setLastName("tommi");
+        user.setAge(25);
+        System.out.println("before insert: " + user);
+        userRepository.create(user);
+        System.out.println("after insert: " + user);
 
-        CityRepository cityRepository = applicationContext.getCityRepository();
-        cityRepository.findById(2)
-                .ifPresent(System.out::println);
-
-        applicationContext.getConnection().close();
     }
 
 }
