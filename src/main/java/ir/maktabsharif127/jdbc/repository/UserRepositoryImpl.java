@@ -21,16 +21,16 @@ public class UserRepositoryImpl extends CrudRepositoryImpl<User, Integer>
 
     @Override
     protected User mapResultSetToEntity(ResultSet resultSet) {
-        User user = new User();
+        User entity = new User();
         try {
-            user.setId(resultSet.getInt(User.ID_COLUMN));
-            user.setFirstName(resultSet.getString(User.FIRST_NAME_COLUMN));
-            user.setLastName(resultSet.getString(User.LAST_NAME_COLUMN));
-            user.setAge(resultSet.getInt(User.AGE_COLUMN));
-            user.setUsername(resultSet.getString(User.USERNAME_COLUMN));
+            entity.setId(resultSet.getInt(User.ID_COLUMN));
+            entity.setFirstName(resultSet.getString(User.FIRST_NAME_COLUMN));
+            entity.setLastName(resultSet.getString(User.LAST_NAME_COLUMN));
+            entity.setAge(resultSet.getInt(User.AGE_COLUMN));
+            entity.setUsername(resultSet.getString(User.USERNAME_COLUMN));
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-        return user;
+        return entity;
     }
 }

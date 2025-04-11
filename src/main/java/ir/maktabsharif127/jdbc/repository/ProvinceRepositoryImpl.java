@@ -21,14 +21,14 @@ public class ProvinceRepositoryImpl extends CrudRepositoryImpl<Province, Integer
 
     @Override
     protected Province mapResultSetToEntity(ResultSet resultSet) {
-        Province province = new Province();
+        Province entity = new Province();
         try {
-            province.setId(resultSet.getInt(Province.ID_COLUMN));
-            province.setName(resultSet.getString(Province.NAME_COLUMN));
-            province.setPreCode(resultSet.getString(Province.PRE_CODE_COLUMN));
+            entity.setId(resultSet.getInt(Province.ID_COLUMN));
+            entity.setName(resultSet.getString(Province.NAME_COLUMN));
+            entity.setPreCode(resultSet.getString(Province.PRE_CODE_COLUMN));
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-        return province;
+        return entity;
     }
 }

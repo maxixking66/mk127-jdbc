@@ -34,10 +34,7 @@ public abstract class CrudRepositoryImpl<T extends BaseEntity<ID>, ID> implement
 
     @Override
     public Optional<T> findById(ID id) {
-
-        String findByIdQuery = "select * from " + getTableName() + " where id = ?";
-
-        try (PreparedStatement statement = connection.prepareStatement(findByIdQuery)) {
+        try (PreparedStatement statement = connection.prepareStatement(getFindByIdQuery())) {
             statement.setObject(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -50,6 +47,10 @@ public abstract class CrudRepositoryImpl<T extends BaseEntity<ID>, ID> implement
         }
 
         return Optional.empty();
+    }
+
+    protected String getFindByIdQuery() {
+        return "select * from " + getTableName() + " where id = ?";
     }
 
     protected abstract String getTableName();

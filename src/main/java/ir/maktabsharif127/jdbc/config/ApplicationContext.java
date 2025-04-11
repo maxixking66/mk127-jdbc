@@ -1,9 +1,6 @@
 package ir.maktabsharif127.jdbc.config;
 
-import ir.maktabsharif127.jdbc.repository.ProvinceRepository;
-import ir.maktabsharif127.jdbc.repository.ProvinceRepositoryImpl;
-import ir.maktabsharif127.jdbc.repository.UserRepository;
-import ir.maktabsharif127.jdbc.repository.UserRepositoryImpl;
+import ir.maktabsharif127.jdbc.repository.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -57,5 +54,14 @@ public class ApplicationContext {
             provinceRepository = new ProvinceRepositoryImpl(getConnection());
         }
         return provinceRepository;
+    }
+
+    private CityRepository cityRepository;
+
+    public CityRepository getCityRepository() {
+        if (cityRepository == null) {
+            cityRepository = new CityRepositoryImpl(getConnection());
+        }
+        return cityRepository;
     }
 }

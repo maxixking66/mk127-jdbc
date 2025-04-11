@@ -3,6 +3,7 @@ package ir.maktabsharif127.jdbc;
 import ir.maktabsharif127.jdbc.config.ApplicationContext;
 import ir.maktabsharif127.jdbc.domains.Province;
 import ir.maktabsharif127.jdbc.domains.User;
+import ir.maktabsharif127.jdbc.repository.CityRepository;
 import ir.maktabsharif127.jdbc.repository.ProvinceRepository;
 import ir.maktabsharif127.jdbc.repository.UserRepository;
 
@@ -21,6 +22,10 @@ public class Application {
         ProvinceRepository provinceRepository = applicationContext.getProvinceRepository();
         Optional<Province> provinceOptional = provinceRepository.findById(3);
         provinceOptional.ifPresent(System.out::println);
+
+        CityRepository cityRepository = applicationContext.getCityRepository();
+        cityRepository.findById(2)
+                .ifPresent(System.out::println);
 
         applicationContext.getConnection().close();
     }
