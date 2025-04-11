@@ -67,4 +67,9 @@ public class UserRepositoryImpl extends CrudRepositoryImpl<User, Integer>
         }
         return entity;
     }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return false;
+    }
 }
