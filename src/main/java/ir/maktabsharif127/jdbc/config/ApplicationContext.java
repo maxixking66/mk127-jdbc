@@ -1,5 +1,7 @@
 package ir.maktabsharif127.jdbc.config;
 
+import ir.maktabsharif127.jdbc.repository.ProvinceRepository;
+import ir.maktabsharif127.jdbc.repository.ProvinceRepositoryImpl;
 import ir.maktabsharif127.jdbc.repository.UserRepository;
 import ir.maktabsharif127.jdbc.repository.UserRepositoryImpl;
 
@@ -45,5 +47,15 @@ public class ApplicationContext {
             userRepository = new UserRepositoryImpl(getConnection());
         }
         return userRepository;
+    }
+
+
+    private ProvinceRepository provinceRepository;
+
+    public ProvinceRepository getProvinceRepository() {
+        if (provinceRepository == null) {
+            provinceRepository = new ProvinceRepositoryImpl(getConnection());
+        }
+        return provinceRepository;
     }
 }

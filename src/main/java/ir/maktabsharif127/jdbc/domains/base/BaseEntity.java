@@ -1,5 +1,8 @@
 package ir.maktabsharif127.jdbc.domains.base;
 
+import lombok.ToString;
+
+@ToString
 public abstract class BaseEntity<ID> {
 
     public static final String ID_COLUMN = "id";
